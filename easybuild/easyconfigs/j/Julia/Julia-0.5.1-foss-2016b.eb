@@ -1,0 +1,35 @@
+easyblock = 'MakeCp'
+
+name = 'julia'
+version = '0.5.1'
+
+homepage = 'http://www.julialang.org'
+description = """Julia is a high-level, high-performance dynamic programming language for technical computing."""
+
+toolchain = {'name':'foss', 'version':'2016b'}
+toolchainopts = {'pic':True}
+
+source_urls = ['https://github.com/JuliaLang/julia/releases/download/v%s' % version]
+sources = ['%s-%s.tar.gz' % (name, version)]
+
+dependencies = [
+        ('LLVM', '3.9.0'),
+        ('PCRE2', '10.21'),
+        ('OpenBLAS', '0.2.18', '-LAPACK-3.6.1', ('GCC', '5.4.0-2.26')),
+        ('FFTW', '3.3.4'),
+        ('GMP', '6.1.1'),
+        ('MPFR', '3.1.4'),
+        ('patchelf', '0.9'),
+	('cURL', '7.49.1'),
+]
+
+builddependencies = [('CMake', '3.6.1')]
+
+buildopts = ['USE_SYSTEM_LLVM=1 USE_SYSTEM_PCRE=1 USE_SYSTEM_BLAS=1 USE_SYSTEM_FFTW=1 USE_SYSTEM_GMP=1 USE_SYSTEM_MPFR=1 USE_SYSTEM_CURL=1 USE_SYSTEM_PATCHELF=1 USE_LLVM_SHLIB=0 LIBBLAS=-lopenblas LIBBLASNAME=libopenblas']
+	
+files_to_copy = ['usr/include', 'usr/bin', 'usr/lib', 'usr/libexec', 'usr/share', 'usr/etc', 'usr/tools']
+
+#Julia does not like parallel builds
+parallel = 1
+
+moduleclass = 'lang'
